@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	  {
+		"label": "build",
+		"type": "shell",
+		"command": "clang++",
+		"args": [
+		  "-std=c++17",
+		  "-Wall",
+		  "-L/opt/homebrew/Cellar/sfml/2.5.1_2/lib",
+		  "-I/opt/homebrew/Cellar/sfml/2.5.1_2/include",
+		  "-lsfml-graphics",
+		  "-lsfml-window",
+		  "-lsfml-system",
+		  "-lsfml-audio",
+		  "main.cpp",
+		  "MainMenu.cpp",
+		  "Game.cpp",
+		  "-o",
+		  "main"
+		],
+		"group": {
+		  "kind": "build",
+		  "isDefault": true
+		}
+	  }
+	]
+  }
+  

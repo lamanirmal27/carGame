@@ -1,0 +1,26 @@
+{
+    "configurations": [
+      {
+        "name": "Mac",
+        "includePath": [
+          "${workspaceFolder}/**",
+          "/opt/homebrew/Cellar/sfml/2.5.1_2/include"  // Add the path to the SFML include directory
+        ],
+        "defines": [],
+        "compilerPath": "/usr/bin/clang",
+        "cStandard": "c17",
+        "cppStandard": "c++17",
+        "intelliSenseMode": "macos-clang-x64",
+        "browse": {
+          "path": [
+            "${workspaceFolder}/**",
+            "/opt/homebrew/Cellar/sfml/2.5.1_2/include"  // Add the path to the SFML include directory
+          ],
+          "limitSymbolsToIncludedHeaders": true,
+          "databaseFilename": ""
+        }
+      }
+    ],
+    "version": 4
+  }
+  
