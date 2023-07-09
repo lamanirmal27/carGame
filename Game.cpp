@@ -32,7 +32,11 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
     //setting up user sprite car
     userSprite.setPosition(sf::Vector2f(userX, userY));
     userSprite.setScale(scalefactor, scalefactor);
-        
+
+    //setting up opponent sprite car 
+    opp1.setPosition(sf::Vector2f(282.f, 300));
+    //opp1.setScale(0.1, 0.1);
+    
 }
 void Game::gameRun()
 {   
@@ -99,6 +103,7 @@ void Game::render()
     game_win.draw(background1);
     game_win.draw(background2);
     game_win.draw(userSprite);
+    game_win.draw(opp1);
     game_win.display();
 }
 
