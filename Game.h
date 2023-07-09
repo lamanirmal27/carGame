@@ -20,8 +20,8 @@ class Game
     sf::RenderWindow game_win;
     sf::SoundBuffer playSound;
     sf::Sound sound;
-    sf::Texture userCar,game_back,oppCar1;
-    sf::Sprite userSprite, opp1,background1, background2;
+    sf::Texture userCar,game_back,oppCar1, oppCar2;
+    sf::Sprite userSprite, opp1,opp2, background1, background2;
     sf::Vector2f background1Position, background2Position;
     float scalefactor,userX,userY;
     float backgroundSpeed, backgroundY1, backgroundY2;

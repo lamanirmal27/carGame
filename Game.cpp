@@ -20,10 +20,12 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
 
     //loading texture
     if (!userCar.loadFromFile("game_resrc/user_car.png")) std::cout << "Error in loading texture"<< std::endl;
-    if(!oppCar1.loadFromFile("game_resrc/opp2.png")) std::cout << "Error in loading texture"<< std::endl;
+    if(!oppCar1.loadFromFile("game_resrc/opp_car1.png")) std::cout << "Error in loading texture"<< std::endl;
+    if(!oppCar2.loadFromFile("game_resrc/opp_car2.png")) std::cout << "Error in loading texture"<< std::endl;
     if(!game_back.loadFromFile("game_resrc/game_back2.png")) std::cout << "Error in loading texture" << std::endl;
     userSprite.setTexture(userCar);
     opp1.setTexture(oppCar1);
+    opp2.setTexture(oppCar2);
 
     // Two sprites for the background
     background1.setTexture(game_back);
@@ -103,6 +105,7 @@ void Game::render()
     game_win.draw(background1);
     game_win.draw(background2);
     game_win.draw(opp1);
+    game_win.draw(opp2);
     game_win.draw(userSprite);
     game_win.display();
 }
