@@ -108,9 +108,9 @@ void Game::render()
     game_win.clear();
     game_win.draw(background1);
     game_win.draw(background2);
-    game_win.draw(opp1);
-    game_win.draw(opp2);
-    game_win.draw(opp3);
+    //game_win.draw(opp1);
+    //game_win.draw(opp2);
+    //game_win.draw(opp3);
     game_win.draw(userSprite);
     game_win.display();
 }
