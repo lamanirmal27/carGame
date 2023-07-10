@@ -12,8 +12,13 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
     userY = 700.0f;
     scalefactor = 0.2f;
     backgroundSpeed = 0.1f;
+    carspeed = 1.2f;
     backgroundY1 = 0;
     backgroundY2 = -1000;
+    opp1Y = -50; opp2Y = -450; opp3Y = -850;
+    opp1X = getRandomNumber(borderLeft, borderRight);
+    opp2X = getRandomNumber(borderLeft, borderRight);
+    opp3X = getRandomNumber(borderLeft, borderRight);
     //loading sound
     if (!playSound.loadFromFile("game_resrc/sound1.wav")) std::cout << "Error in loading audio"<< std::endl;
     sound.setBuffer(playSound);
@@ -43,6 +48,10 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
     opp2.setScale(0.4, 0.4);
     opp3.setScale(0.4, 0.4);
     
+    //setting opp position
+    opp1.setPosition(opp1X, opp1Y);
+    opp2.setPosition(opp2X, opp2Y);
+    opp3.setPosition(opp3X, opp3Y);
 }
 void Game::gameRun()
 {   
@@ -108,9 +117,9 @@ void Game::render()
     game_win.clear();
     game_win.draw(background1);
     game_win.draw(background2);
-    //game_win.draw(opp1);
-    //game_win.draw(opp2);
-    //game_win.draw(opp3);
+    game_win.draw(opp1);
+    game_win.draw(opp2);
+    game_win.draw(opp3);
     game_win.draw(userSprite);
     game_win.display();
 }
@@ -129,4 +138,48 @@ void Game::update()
 
     background1.setPosition(0,backgroundY1);
     background2.setPosition(0, backgroundY2);
+
+    // Moving the opponent cars
+    if (opp1Y > 1000)
+    {
+        opp1Y = 0;
+        opp1X = getRandomNumber(borderLeft, borderRight);
+    }
+    else
+    {
+        opp1Y += backgroundSpeed*carspeed;
+    }
+
+    if (opp2Y > 1000)
+    {
+        opp2Y = 0;
+        opp2X = getRandomNumber(borderLeft, borderRight);
+    }
+    else
+    {
+        opp2Y += backgroundSpeed*carspeed;
+    }
+
+    if (opp3Y > 1000)
+    {
+        opp3Y = 0;
+        opp3X = getRandomNumber(borderLeft, borderRight);
+    }
+    else
+    {
+        opp3Y += backgroundSpeed*carspeed;
+    }
+
+    //setting position
+    opp1.setPosition(sf::Vector2f(opp1X, opp1Y));
+    opp2.setPosition(sf::Vector2f(opp2X, opp2Y));
+    opp3.setPosition(sf::Vector2f(opp3X, opp3Y));
+}
+
+int Game::getRandomNumber(int a, int b)
+{
+    static std::mt19937 generator(std::time(0));
+    std::uniform_int_distribution<int> distribution(a, b);
+
+    return distribution(generator);
 }
