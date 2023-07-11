@@ -11,6 +11,7 @@ public:
     void run();
     void start();
     bool isMuted;
+    sf::Sound sound;
 
 private:
     void processEvents();
@@ -24,7 +25,7 @@ private:
     sf::RenderWindow window;
     sf::Font font;
     sf::SoundBuffer gameSound, playSound, buttonSound;
-    sf::Sound sound, button;
+    sf::Sound button;
 
     sf::Text options[4];
     sf::Text exitOptions[2];

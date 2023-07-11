@@ -15,13 +15,13 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
     carspeed = 1.2f;
     backgroundY1 = 0;
     backgroundY2 = -1000;
-    opp1Y = -50; opp2Y = -450; opp3Y = -850;
+    opp1Y = -0; opp2Y = -400; opp3Y = -700;
     opp1X = getRandomNumber(borderLeft, borderRight);
     opp2X = getRandomNumber(borderLeft, borderRight);
     opp3X = getRandomNumber(borderLeft, borderRight);
     //loading sound
     if (!playSound.loadFromFile("game_resrc/sound1.wav")) std::cout << "Error in loading audio"<< std::endl;
-    sound.setBuffer(playSound);
+    soundgame.setBuffer(playSound);
 
     //loading texture
     if (!userCar.loadFromFile("game_resrc/user_car.png")) std::cout << "Error in loading texture"<< std::endl;
@@ -55,8 +55,8 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
 }
 void Game::gameRun()
 {   
-    sound.play();
-    sound.setLoop(true);
+    soundgame.play();
+    soundgame.setLoop(true);
     while(game_win.isOpen())
     {
         processEvents();
@@ -84,11 +84,8 @@ void Game::handleKeyPress(const sf::Keyboard::Key& key)
     if (key == sf::Keyboard::Escape) 
     {
         game_win.close();
-        sound.stop();
-        /*if(isMuted)
-            sound.pause();
-        else */   
-            sound.play();
+        soundgame.stop();
+        //obj.sound.play();
     }
     if(key == sf::Keyboard::Left || key == sf::Keyboard::A)
     {
@@ -139,6 +136,7 @@ void Game::update()
     background1.setPosition(0,backgroundY1);
     background2.setPosition(0, backgroundY2);
 
+    srand(static_cast<unsigned>(time(0)));
     // Moving the opponent cars
     if (opp1Y > 1000)
     {
@@ -176,10 +174,9 @@ void Game::update()
     opp3.setPosition(sf::Vector2f(opp3X, opp3Y));
 }
 
-int Game::getRandomNumber(int a, int b)
+int Game::getRandomNumber(int lower, int upper)
 {
-    static std::mt19937 generator(std::time(0));
-    std::uniform_int_distribution<int> distribution(a, b);
-
-    return distribution(generator);
+    int range = upper - lower + 1;
+    int random = lower + (rand() % range);
+    return random;
 }
