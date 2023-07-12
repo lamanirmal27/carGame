@@ -6,6 +6,7 @@ const float screenHeight = 800.0f;
 MainMenu::MainMenu() : window(sf::VideoMode(screenWidth, screenHeight), "Car Game")
 {
     selectedOption=0;
+    scaleFactor = 0.4f;
     isMuted = false;
     //loading font file
     if (!font.loadFromFile("game_resrc/Giveny.ttf")) std::cout << "Error in loading font"<< std::endl;
@@ -48,7 +49,6 @@ void MainMenu::run()
     while (window.isOpen()) 
     {
         processEvents();
-        update();
         render();
     }
 }
@@ -73,7 +73,7 @@ void MainMenu::processEvents()
     }
 }
 
-void MainMenu::handleKeyPress(const sf::Keyboard::Key& key)
+void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
 {
     if (key == sf::Keyboard::Up) 
     {
@@ -118,11 +118,6 @@ void MainMenu::handleKeyPress(const sf::Keyboard::Key& key)
             break;
         }
     }
-}
-
-void MainMenu::update()
-{
-    // Update any game logic or state here
 }
 
 void MainMenu::render()

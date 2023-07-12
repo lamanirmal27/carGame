@@ -64,10 +64,6 @@ void Game::gameRun()
         render();
     }
 }
-void Game::backSet()
-{
-    //
-}
 void Game::processEvents()
 {
     sf::Event event;
@@ -127,16 +123,18 @@ void Game::update()
     backgroundY1+=backgroundSpeed ;
     backgroundY2+=backgroundSpeed ;
 
+    //checking if the background has moved off
     if (backgroundY2>0)
     {
         backgroundY1=0;
-        backgroundY2=backgroundY1-900;
+        backgroundY2=backgroundY1-1000;
     }
-
+    //setting the position of the background 
     background1.setPosition(0,backgroundY1);
     background2.setPosition(0, backgroundY2);
 
-    srand(static_cast<unsigned>(time(0)));
+    
+
     // Moving the opponent cars
     if (opp1Y > 1000)
     {
@@ -176,6 +174,7 @@ void Game::update()
 
 int Game::getRandomNumber(int lower, int upper)
 {
+    srand(static_cast<unsigned>(time(0)));
     int range = upper - lower + 1;
     int random = lower + (rand() % range);
     return random;

@@ -12,7 +12,6 @@ class Game
     public:
     Game();
     void gameRun();
-    void backSet();
     void handleKeyPress(const sf::Keyboard::Key& key);
     void processEvents();
     void render();

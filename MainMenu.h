@@ -15,8 +15,7 @@ public:
 
 private:
     void processEvents();
-    void handleKeyPress(const sf::Keyboard::Key& key);
-    void update();
+    void handleKeyPress(sf::Keyboard::Key& key);
     void render();
     void mute();
     void instruction();
@@ -26,7 +25,6 @@ private:
     sf::Font font;
     sf::SoundBuffer gameSound, playSound, buttonSound;
     sf::Sound button;
-
     sf::Text options[4];
     sf::Text exitOptions[2];
 
@@ -34,6 +32,6 @@ private:
     sf::Sprite arrowSprite, buttonSprite;
 
     int selectedOption;
-    const float scaleFactor = 0.4f;
+    float scaleFactor;
     
 };
