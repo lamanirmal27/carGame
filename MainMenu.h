@@ -1,4 +1,5 @@
 #pragma once
+#include "Game.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -11,7 +12,7 @@ public:
     void run();
     void start();
     bool isMuted;
-    sf::Sound sound;
+    
 
 private:
     void processEvents();
@@ -30,8 +31,8 @@ private:
 
     sf::Texture arrowTexture, buttonTexture;
     sf::Sprite arrowSprite, buttonSprite;
-
+    sf::Sound mainsound;
+    
     int selectedOption;
     float scaleFactor;
-    
 };

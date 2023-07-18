@@ -1,11 +1,14 @@
 //#include <SFML/Graphics.hpp>
 #include "MainMenu.h"
-#include "Game.h"
+
+MainMenu mainMenu;
 int main()
 {
-    
-    MainMenu mainMenu;
     mainMenu.run();
     
     return 0;
 }
+
+
+//sound = mainsound
+//sounnd1=gameesound

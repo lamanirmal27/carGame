@@ -1,21 +1,23 @@
 #include "Game.h"
 #include "MainMenu.h"
-
+//#include "main.cpp"
 const float borderLeft = 178.0f;
 const float borderRight = 493.0f;
 const float borderUp = 100.0f;
 const float borderDown = 845.0f;
 
-Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
+
+Game::Game() 
 {
+    isMuted = false;
     userX = 282.0f; 
-    userY = 700.0f;
+    userY = 600.0f;
     scalefactor = 0.2f;
     backgroundSpeed = 0.1f;
     carspeed = 1.2f;
     backgroundY1 = 0;
     backgroundY2 = -1000;
-    opp1Y = -0; opp2Y = -400; opp3Y = -700;
+    opp1Y = 0; opp2Y = -400; opp3Y = -700;
     opp1X = getRandomNumber(borderLeft, borderRight);
     opp2X = getRandomNumber(borderLeft, borderRight);
     opp3X = getRandomNumber(borderLeft, borderRight);
@@ -43,7 +45,7 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
     userSprite.setScale(scalefactor, scalefactor);
 
     //setting up opponent sprite car 
-    opp1.setPosition(sf::Vector2f(282.f, 300));
+    //opp1.setPosition(sf::Vector2f(282.f, 300));
     opp1.setScale(0.9, 0.9);
     opp2.setScale(0.4, 0.4);
     opp3.setScale(0.4, 0.4);
@@ -54,9 +56,13 @@ Game::Game() : game_win(sf::VideoMode(800, 1000), "Game")
     opp3.setPosition(opp3X, opp3Y);
 }
 void Game::gameRun()
-{   
+{    
+    game_win.create(sf::VideoMode(800, 750), "IN Game");
+    
+    //obj.mainsound.pause();
     soundgame.play();
     soundgame.setLoop(true);
+
     while(game_win.isOpen())
     {
         processEvents();
@@ -79,30 +85,43 @@ void Game::handleKeyPress(const sf::Keyboard::Key& key)
 {
     if (key == sf::Keyboard::Escape) 
     {
+        soundgame.pause();
+        //mainMenu.mainsound.play();
         game_win.close();
-        soundgame.stop();
-        //obj.sound.play();
+    }
+    if(key == sf::Keyboard::M)
+    {
+        if(isMuted)
+        {
+            soundgame.play();
+            isMuted = false;
+        }
+        else
+        {
+            soundgame.pause();
+            isMuted = true;
+        }
     }
     if(key == sf::Keyboard::Left || key == sf::Keyboard::A)
     {
         if(borderLeft<userX)
             userX -= 10.0f;
-        }
-        else if(key == sf::Keyboard::Right || key == sf::Keyboard::D)
-        {
-            if(borderRight>userX)
-                userX += 10.0f;
-            }
-            else if(key == sf::Keyboard::Up || key == sf::Keyboard::W)
-            {
-                if(!(borderUp>userY))
-                    userY -= 10.0f;
-            }
-            else if(key == sf::Keyboard::Down || key == sf::Keyboard::S)
-            {
-                if(!(borderDown<userY))
-                    userY += 10.0f;
-            }
+    }
+    else if(key == sf::Keyboard::Right || key == sf::Keyboard::D)
+    {
+        if(borderRight>userX)
+            userX += 10.0f;
+    }
+    else if(key == sf::Keyboard::Up || key == sf::Keyboard::W)
+    {
+        if(!(borderUp>userY))
+            userY -= 10.0f;
+    }
+    else if(key == sf::Keyboard::Down || key == sf::Keyboard::S)
+    {
+        if(!(borderDown<userY))
+            userY += 10.0f;
+    }
             userSprite.setPosition(sf::Vector2f(userX, userY));
 }
 void Game::render()
@@ -132,8 +151,6 @@ void Game::update()
     //setting the position of the background 
     background1.setPosition(0,backgroundY1);
     background2.setPosition(0, backgroundY2);
-
-    
 
     // Moving the opponent cars
     if (opp1Y > 1000)

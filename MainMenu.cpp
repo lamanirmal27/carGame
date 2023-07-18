@@ -1,9 +1,11 @@
 #include "MainMenu.h"
 #include "Game.h"
+
 const float screenWidth = 1000.0f;
 const float screenHeight = 800.0f;
 
-MainMenu::MainMenu() : window(sf::VideoMode(screenWidth, screenHeight), "Car Game")
+
+MainMenu::MainMenu() 
 {
     selectedOption=0;
     scaleFactor = 0.4f;
@@ -15,12 +17,10 @@ MainMenu::MainMenu() : window(sf::VideoMode(screenWidth, screenHeight), "Car Gam
     if (!gameSound.loadFromFile("game_resrc/sound2.wav")) std::cout << "Error in loading audio"<< std::endl;
     if (!buttonSound.loadFromFile("game_resrc/button1.wav")) std::cout << "Error in loading audio"<< std::endl;
 
-    sound.setBuffer(gameSound);
+    mainsound.setBuffer(gameSound);
     button.setBuffer(buttonSound);
 
-    //playing menu sound
-    sound.play();
-    sound.setLoop(true);
+    
 
     options[0].setString("Start Game");
     options[1].setString("Mute");
@@ -46,6 +46,12 @@ MainMenu::MainMenu() : window(sf::VideoMode(screenWidth, screenHeight), "Car Gam
 
 void MainMenu::run()
 {
+    window.create(sf::VideoMode(screenWidth, screenHeight), "Car Game");
+
+    //playing menu sound
+    mainsound.play();
+    mainsound.setLoop(true);
+
     while (window.isOpen()) 
     {
         processEvents();
@@ -98,7 +104,6 @@ void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
         switch (selectedOption)
         {
         case 0: 
-            sound.pause();
             start();
             break;
 
@@ -133,12 +138,12 @@ void MainMenu::mute()
 {
     if (isMuted)
     {
-        sound.play(); 
+        mainsound.play(); 
         isMuted = false; 
     }
     else 
     {
-        sound.pause(); 
+        mainsound.pause(); 
         isMuted = true; 
     }
 }
@@ -241,5 +246,6 @@ void MainMenu::exit()
 void MainMenu::start()
 {
     Game game;
+    mainsound.pause();
     game.gameRun();
 }
