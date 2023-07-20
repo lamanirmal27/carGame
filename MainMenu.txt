@@ -42,7 +42,6 @@ MainMenu::MainMenu()
     arrowSprite.setTexture(arrowTexture);
     buttonSprite.setTexture(buttonTexture);
     arrowSprite.setScale(scaleFactor, scaleFactor);
-    arrowSprite.setPosition(85, 190);
 }
 
 void MainMenu::run()
@@ -65,11 +64,18 @@ void MainMenu::processEvents()
     sf::Event event;
     while (window.pollEvent(event)) 
     {
+        if (event.type == sf::Event::Closed)
+            window.close();
+
         if (event.type == sf::Event::KeyPressed) 
         {
             handleKeyPress(event.key.code);
         }
 
+        float optionY = 150.0f + selectedOption * 90.0f;
+        float arrowX = 190.0f - arrowSprite.getGlobalBounds().width;// adjust spacing
+        float arrowY = optionY + (183.0f - arrowSprite.getGlobalBounds().height) / 2.0f;
+        arrowSprite.setPosition(arrowX, arrowY);
     }
 }
 
@@ -78,7 +84,6 @@ void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
     if (key == sf::Keyboard::Up) 
     {
         if (selectedOption > 0) {
-            arrowSprite.move(0, -90);
             --selectedOption;
             button.play();
         }
@@ -86,7 +91,6 @@ void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
     else if (key == sf::Keyboard::Down) 
     {
         if (selectedOption < 3) {
-            arrowSprite.move(0, 90);
             ++selectedOption;
             button.play();
         }
@@ -148,10 +152,10 @@ void MainMenu::instruction()
 {
     sf::RenderWindow instruction(sf::VideoMode(600, 400), "Instruction");
     sf::Text msg;
-    msg.setString("Press A to move vehicle to left\nPress D to move vehicle to right\nPress W to move vehicel UP\nPress S to move vehicle DOWN\nPress M for InGame mute\nPress TAB to pause the game\nPress Esc key to exit Game");
+    msg.setString("Press A to move vehicle to left\nPress D to move vehicle to right\nPress W to move vehicel UP\nPress S to move vehicle DOWN\nPress Esc key to exit Game");
     msg.setFont(font);
-    msg.setCharacterSize(35);
-    msg.setPosition(30, 60);
+    msg.setCharacterSize(30);
+    msg.setPosition(30, 100);
 
     while(instruction.isOpen())
     {
@@ -184,19 +188,20 @@ void MainMenu::exit()
         exitOptions[i].setPosition(210 * i + 150, 250);
     }
     int exitOption = 0;
-    buttonSprite.setPosition(90.0f,245.0f);
+    sf::Vector2f spritePos(100.0f,150.0f);
     while (exitWindow.isOpen())
     {
         sf::Event exitEvent;
         while (exitWindow.pollEvent(exitEvent))
         {
+            if(exitEvent.type == sf::Event::Closed)
+                exitWindow.close();
             if (exitEvent.type == sf::Event::KeyPressed)
             {
                 if (exitEvent.key.code == sf::Keyboard::Left)
                 {
                     if(exitOption == 1)
                     {
-                        buttonSprite.move(-235, 0);
                         --exitOption;
                         button.play();
                     }
@@ -206,7 +211,6 @@ void MainMenu::exit()
                 {
                     if(exitOption == 0)
                     {
-                        buttonSprite.move(235, 0);
                         ++exitOption;
                         button.play();
                     }
@@ -225,7 +229,10 @@ void MainMenu::exit()
                 }
             }
         }
-        
+        float optionY = 245.0f ;
+        float buttonX =  90.0f  + exitOption * 230.0f;// adjust spacing
+        float buttonY = optionY + (110.0f - arrowSprite.getGlobalBounds().height) / 2.0f;
+        buttonSprite.setPosition(buttonX, buttonY);
         exitWindow.clear();
         exitWindow.draw(msg);
         for(int i=0; i<2; i++)

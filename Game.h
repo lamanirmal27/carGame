@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <string> 
 #include "MainMenu.h"
 class Game
 {
@@ -15,19 +16,26 @@ class Game
     void processEvents();
     void render();
     void update();
+    void checkColl();
+    void gameOver();
     int getRandomNumber(int lower, int upper);
-    sf::Sound soundgame;
+    void togglePause();
     
     private:
 
     
-    sf::RenderWindow game_win;
+    sf::RenderWindow game_win, endGame;
     sf::SoundBuffer playSound;
     sf::Texture userCar,game_back,oppCar1, oppCar2;
     sf::Sprite userSprite, opp1,opp2, background1, background2;
     sf::Vector2f background1Position, background2Position;
+    sf::Sound soundgame;
+    sf::Text text;
+    sf::Font myfont;
+    std::string stringscore;
     float scalefactor,userX,userY;
     float backgroundSpeed, backgroundY1, backgroundY2;
     float opp1X, opp1Y, opp2X, opp2Y, carspeed, movespeed;
-    bool isMuted;
+    int score/*, countLife*/, prevscore, scoreInterval;
+    bool isMuted, isPaused;
 };

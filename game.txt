@@ -1,16 +1,15 @@
 #include "Game.h"
 #include "MainMenu.h"
 //#include "main.cpp"
-const float borderLeft = 220.0f;
+const float borderLeft = 205.0f;
 const float borderRight = 555.0f;
 const float borderUp = 100.0f;
 const float borderDown = 600.0f;
 
-//sf::Sound MainMenu::mainsound;
+
 Game::Game() 
 {
     isMuted = false;
-    isPaused = false;
     userX = 282.0f; 
     userY = 600.0f;
     scalefactor = 0.2f;
@@ -34,7 +33,8 @@ Game::Game()
     text.setFont(myfont); // Assuming myfont is already loaded
     //text.setString(stringscore);
     text.setCharacterSize(70);
-    text.setFillColor(sf::Color::White);
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(90, 150);
     
 
     //loading sound
@@ -80,12 +80,9 @@ void Game::gameRun()
     while(game_win.isOpen())
     {
         processEvents();
-        if(!isPaused)
-        {
-            update();
-            render();
-            checkColl();
-        }
+        update();
+        render();
+        checkColl();
     }
 }
 void Game::processEvents()
@@ -104,7 +101,7 @@ void Game::handleKeyPress(const sf::Keyboard::Key& key)
     if (key == sf::Keyboard::Escape) 
     {
         soundgame.pause();
-        //MainMenu::mainsound.play();
+        //mainMenu.mainsound.play();
         game_win.close();
     }
     if(key == sf::Keyboard::M)
@@ -122,17 +119,7 @@ void Game::handleKeyPress(const sf::Keyboard::Key& key)
     }
     if(key == sf::Keyboard::Tab)
     {
-        togglePause();
-        if (isMuted)
-        {
-            soundgame.play(); 
-            isMuted = false; 
-        }
-        else 
-        {
-            soundgame.pause(); 
-            isMuted = true; 
-        }
+        //
     }
     if (key == sf::Keyboard::Left || key == sf::Keyboard::A)
     {
@@ -171,66 +158,59 @@ void Game::render()
     game_win.draw(userSprite);
     game_win.draw(opp1);
     game_win.draw(opp2);
-    game_win.draw(text);
     game_win.display();
 }
 
 void Game::update()
 {
-    if(!isPaused)
+    //moving the background
+    backgroundY1+=backgroundSpeed ;
+    backgroundY2+=backgroundSpeed ;
+
+    //checking if the background has moved off
+    if (backgroundY2>0)
     {
-        //moving the background
-        backgroundY1+=backgroundSpeed ;
-        backgroundY2+=backgroundSpeed ;
+        backgroundY1=0;
+        backgroundY2=backgroundY1-1000;
 
-        //checking if the background has moved off
-        if (backgroundY2>0)
-        {
-            backgroundY1=0;
-            backgroundY2=backgroundY1-1000;
-
-        }
-        //setting the position of the background 
-        background1.setPosition(0,backgroundY1);
-        background2.setPosition(0, backgroundY2);
-
-        // Moving the opponent cars
-        if (opp1Y > 750)
-        {
-            opp1Y = -100;
-            opp1X = getRandomNumber(borderLeft, borderRight);
-            score++;
-        }
-        else
-        {
-            opp1Y += backgroundSpeed*carspeed;
-        }
-
-        if (opp2Y > 750)
-        {
-            opp2Y = -100;
-            opp2X = getRandomNumber(borderLeft, borderRight);
-            score++;
-        }
-        else
-        {
-            opp2Y += backgroundSpeed*carspeed;
-        }
-
-        //setting position
-        opp1.setPosition(sf::Vector2f(opp1X, opp1Y));
-        opp2.setPosition(sf::Vector2f(opp2X, opp2Y));
-        
-        //game level
-        if(score >= prevscore+scoreInterval)
-        {
-                carspeed +=0.4f;
-                prevscore=score;
-        }
-        stringscore = "SCORE: " + std::to_string(score);
-            text.setString(stringscore);
-            text.setPosition(500,0);
     }
+    //setting the position of the background 
+    background1.setPosition(0,backgroundY1);
+    background2.setPosition(0, backgroundY2);
+
+    // Moving the opponent cars
+    if (opp1Y > 750)
+    {
+        opp1Y = -100;
+        opp1X = getRandomNumber(borderLeft, borderRight);
+        score++;
+    }
+    else
+    {
+        opp1Y += backgroundSpeed*carspeed;
+    }
+
+    if (opp2Y > 750)
+    {
+        opp2Y = -100;
+        opp2X = getRandomNumber(borderLeft, borderRight);
+        score++;
+    }
+    else
+    {
+        opp2Y += backgroundSpeed*carspeed;
+    }
+
+    //setting position
+    opp1.setPosition(sf::Vector2f(opp1X, opp1Y));
+    opp2.setPosition(sf::Vector2f(opp2X, opp2Y));
+    
+    //game level
+   if(score >= prevscore+scoreInterval)
+   {
+        carspeed +=0.3f;
+        prevscore=score;
+   }
 
 }
 
@@ -280,10 +260,9 @@ void Game::gameOver()
             }
         }
 
-        
+        //score = 100; // Replace this with your actual score update logic
         stringscore = "YOU SCORED: " + std::to_string(score);
         text.setString(stringscore);
-        text.setPosition(90, 150);
         
         endGame.clear();
         // Draw other game elements here...
@@ -291,9 +270,4 @@ void Game::gameOver()
         endGame.display();
     }
     
-}
-
-void Game::togglePause()
-{
-    isPaused = !isPaused;
 }
