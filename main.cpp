@@ -1,4 +1,3 @@
-//#include <SFML/Graphics.hpp>
 #include "MainMenu.h"
 
 MainMenu mainMenu;
@@ -8,7 +7,3 @@ int main()
     
     return 0;
 }
-
-
-//sound = mainsound
-//sounnd1=gameesound

@@ -33,8 +33,7 @@ Game::Game()
     //stringscore = "SCORE: " + std::to_string(score);
     text.setFont(myfont); // Assuming myfont is already loaded
     //text.setString(stringscore);
-    text.setCharacterSize(70);
-    text.setFillColor(sf::Color::White);
+    
     
 
     //loading sound
@@ -123,16 +122,6 @@ void Game::handleKeyPress(const sf::Keyboard::Key& key)
     if(key == sf::Keyboard::Tab)
     {
         togglePause();
-        if (isMuted)
-        {
-            soundgame.play(); 
-            isMuted = false; 
-        }
-        else 
-        {
-            soundgame.pause(); 
-            isMuted = true; 
-        }
     }
     if (key == sf::Keyboard::Left || key == sf::Keyboard::A)
     {
@@ -228,8 +217,9 @@ void Game::update()
                 prevscore=score;
         }
         stringscore = "SCORE: " + std::to_string(score);
-            text.setString(stringscore);
-            text.setPosition(500,0);
+        text.setString(stringscore);
+        text.setCharacterSize(50);
+        text.setPosition(550,0);
     }
 
 }
@@ -269,9 +259,8 @@ void Game::gameOver()
 {
 
     endGame.create(sf::VideoMode(700, 400), "End Game");
-   
+    text.setCharacterSize(70);
     
-
     while (endGame.isOpen()) {
         sf::Event event;
         while (endGame.pollEvent(event)) {
@@ -286,7 +275,6 @@ void Game::gameOver()
         text.setPosition(90, 150);
         
         endGame.clear();
-        // Draw other game elements here...
         endGame.draw(text);
         endGame.display();
     }
@@ -296,4 +284,14 @@ void Game::gameOver()
 void Game::togglePause()
 {
     isPaused = !isPaused;
+    if (isMuted)
+    {
+        soundgame.play(); 
+        isMuted = false; 
+    }
+    else 
+    {
+        soundgame.pause(); 
+        isMuted = true; 
+    }
 }
