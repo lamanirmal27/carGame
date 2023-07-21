@@ -3,7 +3,7 @@
 #include "Game.h"
 
 const float borderLeft = 220.0f;
-const float borderRight = 555.0f;
+const float borderRight = 544.0f;
 const float borderUp = 100.0f;
 const float borderDown = 850.0f;
 
