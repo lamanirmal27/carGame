@@ -4,7 +4,8 @@
 const float screenWidth = 1000.0f;
 const float screenHeight = 800.0f;
 
-
+sf::Sound mainsound;
+bool isMuted;
 MainMenu::MainMenu() 
 {
     selectedOption=0;
@@ -21,12 +22,13 @@ MainMenu::MainMenu()
     button.setBuffer(buttonSound);
 
     
-
+    //Optoins for our main menu
     options[0].setString("Start Game");
     options[1].setString("Mute");
     options[2].setString("Instruction");
     options[3].setString("Quit Game");
 
+    //Options for our exitMenu
     exitOptions[0].setString("Exit");
     exitOptions[1].setString("Cancel");
 

@@ -2,16 +2,16 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <iostream>
-
+extern sf::Sound mainsound;
+extern bool isMuted;
 class MainMenu 
 {
 public:
     MainMenu();
     void run();
     void start();
-    bool isMuted;
-    /*static*/ sf::Sound mainsound;
+    
+    
 
 private:
     void processEvents();
@@ -25,6 +25,7 @@ private:
     sf::Font font;
     sf::SoundBuffer gameSound, playSound, buttonSound;
     sf::Sound button;
+    
     sf::Text options[4];
     sf::Text exitOptions[2];
 
@@ -35,3 +36,4 @@ private:
     int selectedOption;
     float scaleFactor;
 };
+

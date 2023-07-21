@@ -1,9 +1,9 @@
 #include "MainMenu.h"
 
-MainMenu mainMenu;
+
 int main()
 {
+    MainMenu mainMenu;
     mainMenu.run();
-    
     return 0;
 }
