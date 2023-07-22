@@ -9,7 +9,7 @@
 		  "-std=c++17",
 		  "-Wall",
 		  "-L/Users/mackbook/game/sfml/2.5.1_2/lib",
-		  "-I/Users/mackbook/gamePractise/sfml/2.5.1_2/include",
+		  "-I/Users/mackbook/game/sfml/2.5.1_2/include",
 		  "-lsfml-graphics",
 		  "-lsfml-window",
 		  "-lsfml-system",

@@ -4,6 +4,9 @@
 #include <SFML/Audio.hpp>
 extern sf::Sound mainsound;
 extern bool isMuted;
+extern sf::Texture buttonTexture;
+extern sf::Sprite buttonSprite;
+extern sf::Sound button;
 class MainMenu 
 {
 public:
@@ -24,13 +27,12 @@ private:
     sf::RenderWindow window;
     sf::Font font;
     sf::SoundBuffer gameSound, playSound, buttonSound;
-    sf::Sound button;
     
     sf::Text options[4];
     sf::Text exitOptions[2];
 
-    sf::Texture arrowTexture, buttonTexture;
-    sf::Sprite arrowSprite, buttonSprite;
+    sf::Texture arrowTexture;
+    sf::Sprite arrowSprite;
     
     
     int selectedOption;

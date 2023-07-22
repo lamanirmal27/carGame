@@ -21,18 +21,21 @@ class Game
     int getRandomNumber(int lower, int upper);
     void updateGameElements(const sf::Vector2u& windowSize);
     void togglePause();
+    void resume();
     
     private:
 
     
-    sf::RenderWindow game_win, endGame;
+    sf::RenderWindow game_win, endGame, pauseWindow;
     sf::SoundBuffer playSound;
     sf::Texture userCar,game_back,oppCar1, oppCar2, heart[3];
     sf::Sprite userSprite, opp1,opp2, background1, background2, life[3];
     sf::Vector2f background1Position, background2Position;
     sf::Sound soundgame;
-    sf::Text text;
+    sf::Text text, pauseOption[2];
     sf::Font myfont;
+    sf::Time deltaTime, deltaTime1;
+    sf::Clock clock, clock1;
     std::string stringscore;
     float scalefactor,userX,userY;
     float backgroundSpeed, backgroundY1, backgroundY2;

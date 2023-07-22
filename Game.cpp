@@ -15,13 +15,17 @@ Game::Game()
     userX = 360.0f; 
     userY = 850.0f;
     scalefactor = 0.2f;
-    backgroundSpeed = 0.1f;
+    backgroundSpeed = 200.f;
     carspeed = 0.2f;
     movespeed = 30.f;
     backgroundY1 = 0;
     backgroundY2 = -1000;
     opp1Y = -1400; opp2Y = -900; 
     score = 0; prevscore =0; scoreInterval = 100;
+
+    //options for pause
+    pauseOption[0].setString("Continue");
+    pauseOption[1].setString("Exit");
     
     srand(static_cast<unsigned>(time(0)));
     
@@ -175,9 +179,10 @@ void Game::update()
 {
     if(!isPaused)
     {
+        deltaTime = clock.restart();
         //moving the background
-        backgroundY1+=backgroundSpeed ;
-        backgroundY2+=backgroundSpeed ;
+        backgroundY1+=backgroundSpeed * deltaTime.asSeconds() ;
+        backgroundY2+=backgroundSpeed * deltaTime.asSeconds() ;
 
         //checking if the background has moved off
         if (backgroundY2>0)
@@ -190,6 +195,7 @@ void Game::update()
         background1.setPosition(0,backgroundY1);
         background2.setPosition(0, backgroundY2);
 
+        //deltaTime1 = clock1.restart();
         // Moving the opponent cars
         if (opp1Y > 1000)
         {
@@ -204,7 +210,7 @@ void Game::update()
 
         if (opp2Y > 1000)
         {
-            opp2Y = -100;
+            opp2Y = opp1Y-600;
             opp2X = getRandomNumber(borderLeft, borderRight);
             score= score +10;
         }
@@ -220,7 +226,7 @@ void Game::update()
         //game level
         if(score >= prevscore+scoreInterval)
         {
-                carspeed +=0.03f;
+                carspeed +=0.05f;
                 prevscore=score;
         }
         //displaying score
@@ -261,7 +267,7 @@ void Game::checkColl()
             // Reset positions of the player and opponents to continue the game
             userX = 360.0f; 
             userY = 850.0f;
-            //userSprite.setPosition(sf::Vector2f(userX, userY));
+            userSprite.setPosition(sf::Vector2f(userX, userY));
             opp1Y = -1400;
             opp2Y = -900;
             carspeed = 0.2f;
@@ -285,7 +291,7 @@ void Game::checkColl()
             // Reset positions of the player and opponents to continue the game
             userX = 360.0f; 
             userY = 850.0f;
-            //userSprite.setPosition(sf::Vector2f(userX, userY));
+            userSprite.setPosition(sf::Vector2f(userX, userY));
             opp1Y = -1400;
             opp2Y = -900;
             carspeed = 0.2f;
@@ -327,8 +333,6 @@ void Game::gameOver()
                 endGame.close();
             }
         }
-
-        
         stringscore = "YOU SCORED: " + std::to_string(score);
         text.setString(stringscore);
         text.setPosition(90, 150);
@@ -345,15 +349,91 @@ void Game::gameOver()
 
 void Game::togglePause()
 {
-    isPaused = !isPaused;
-    if (isMuted)
+    resume();
+
+    sf::RenderWindow pauseWindow(sf::VideoMode(600,400),"Notice");
+    sf::Text msg;
+    msg.setString("Are you sure?");
+    msg.setFont(myfont);
+    msg.setCharacterSize(40);
+    msg.setPosition(180, 70);
+    buttonSprite.setScale(0.6f, 0.6f);
+    for(int i=0; i<2; i++)
     {
-        soundgame.play(); 
-        isMuted = false; 
+        pauseOption[i].setFont(myfont);
+        pauseOption[i].setCharacterSize(40);
+        pauseOption[i].setPosition(290 * i + 110, 250);
     }
-    else 
+    int exitOption = 0;
+    buttonSprite.setPosition(90.0f,245.0f);
+    while (pauseWindow.isOpen())
     {
-        soundgame.pause(); 
-        isMuted = true; 
+        sf::Event pauseEvent;
+        while (pauseWindow.pollEvent(pauseEvent))
+        {
+            if (pauseEvent.type == sf::Event::KeyPressed)
+            {
+                if (pauseEvent.key.code == sf::Keyboard::Left)
+                {
+                    if(exitOption == 1)
+                    {
+                        buttonSprite.move(-235, 0);
+                        --exitOption;
+                        button.play();
+                    }
+
+                }
+                else if (pauseEvent.key.code == sf::Keyboard::Right)
+                {
+                    if(exitOption == 0)
+                    {
+                        buttonSprite.move(235, 0);
+                        ++exitOption;
+                        button.play();
+                    }
+                }
+                else if(pauseEvent.key.code == sf::Keyboard::Enter)
+                {
+                    if(exitOption == 0)
+                    {
+                        
+                        pauseWindow.close();
+                        resume();
+                        if(isMuted)
+                            soundgame.pause();
+                        else
+                            soundgame.play();
+                    }
+                    else
+                    {
+                        pauseWindow.close();
+                        game_win.close();
+                        if(isMuted)
+                            mainsound.pause();
+                        else
+                            mainsound.play();
+                    }
+                }
+            }
+        }
+        
+        pauseWindow.clear();
+        pauseWindow.draw(msg);
+        for(int i=0; i<2; i++)
+        {
+            pauseWindow.draw(pauseOption[i]);
+        }
+        pauseWindow.draw(buttonSprite);
+        pauseWindow.display();
+    }
+    
+}
+
+void Game::resume()
+{
+    isPaused = !isPaused;
+    if(!pauseWindow.isOpen())
+    {
+        soundgame.pause();
     }
 }

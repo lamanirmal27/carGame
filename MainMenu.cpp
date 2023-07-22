@@ -6,6 +6,9 @@ const float screenHeight = 800.0f;
 
 sf::Sound mainsound;
 bool isMuted;
+sf::Texture buttonTexture;
+sf::Sprite buttonSprite;
+sf::Sound button;
 MainMenu::MainMenu() 
 {
     selectedOption=0;
@@ -178,7 +181,7 @@ void MainMenu::exit()
     msg.setFont(font);
     msg.setCharacterSize(40);
     msg.setPosition(180, 70);
-    buttonSprite.setScale(scaleFactor + 0.2f, scaleFactor + 0.2f);
+    buttonSprite.setScale(0.6f, 0.6f);
     for(int i=0; i<2; i++)
     {
         exitOptions[i].setFont(font);
