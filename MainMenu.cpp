@@ -153,7 +153,7 @@ void MainMenu::instruction()
 {
     sf::RenderWindow instruction(sf::VideoMode(600, 400), "Instruction");
     sf::Text msg;
-    msg.setString("Press A to move vehicle to left\nPress D to move vehicle to right\nPress W to move vehicel UP\nPress S to move vehicle DOWN\nPress M for InGame mute\nPress TAB to pause the game\nPress Esc key to exit Game");
+    msg.setString("Press A to move vehicle to left\nPress D to move vehicle to right\nPress W to move vehicel UP\nPress S to move vehicle DOWN\nPress TAB to pause the game\nPress Esc key to exit Game");
     msg.setFont(font);
     msg.setCharacterSize(35);
     msg.setPosition(30, 60);
