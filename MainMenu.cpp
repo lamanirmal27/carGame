@@ -162,9 +162,12 @@ void MainMenu::instruction()
     {
         sf::Event e;
         while(instruction.pollEvent(e))
-        {
-            if(e.key.code == sf::Keyboard::Enter)
-            instruction.close();
+        {   
+            if(e.type == sf::Event::KeyPressed)
+            {
+                if(e.key.code == sf::Keyboard::Enter)
+                instruction.close();
+            }
         }
 
         instruction.clear();
