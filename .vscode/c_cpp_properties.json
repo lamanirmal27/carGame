@@ -6,6 +6,9 @@
           "${workspaceFolder}/**",
           "/Users/mackbook/game/sfml/2.5.1_2/include"  // Add the path to the SFML include directory
         ],
+        "macFrameworkPath": [
+          "/Library/Frameworks"
+        ],
         "defines": [],
         "compilerPath": "/usr/bin/clang",
         "cStandard": "c17",

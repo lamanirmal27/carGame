@@ -22,14 +22,15 @@ class Game
     void updateGameElements(const sf::Vector2u& windowSize);
     void togglePause();
     void resume();
+    void reset();
     
     private:
 
     
     sf::RenderWindow game_win, endGame, pauseWindow;
     sf::SoundBuffer playSound;
-    sf::Texture userCar,game_back,oppCar1, oppCar2, heart[3];
-    sf::Sprite userSprite, opp1,opp2, background1, background2, life[3];
+    sf::Texture userCar,game_back,oppCar1, oppCar2,oppCar3, heart[3];
+    sf::Sprite userSprite, opp1,opp2,opp3, background1, background2, life[3];
     sf::Vector2f background1Position, background2Position;
     sf::Sound soundgame;
     sf::Text text, pauseOption[2];
@@ -39,7 +40,7 @@ class Game
     std::string stringscore;
     float scalefactor,userX,userY;
     float backgroundSpeed, backgroundY1, backgroundY2;
-    float opp1X, opp1Y, opp2X, opp2Y, carspeed, movespeed;
+    float opp1X, opp1Y, opp2X, opp2Y, carspeed, movespeed, lifeX, lifeY, gamewinX, gamewinY;
     int score, countLife, prevscore, scoreInterval;
     bool isPaused;
 };

@@ -1,6 +1,9 @@
 {
-    "C_Cpp.errorSquiggles": "disabled",
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "main"
+    "configurations": [],
+    "version": 4,
+    "includePath": [
+      "${workspaceFolder}/main.out",
+      "/Users/mackbook/game/sfml/2.5.1_2/include"
     ]
-}
+  }
+  

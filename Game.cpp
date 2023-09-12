@@ -1,25 +1,28 @@
-
 #include "MainMenu.h"
 #include "Game.h"
 
-const float borderLeft = 220.0f;
-const float borderRight = 544.0f;
+const float borderLeft = 175.0f;
+const float borderRight = 555.0f;
 const float borderUp = 100.0f;
-const float borderDown = 850.0f;
+const float borderDown = 900.0f;
 
 
 Game::Game() 
 {
     isPaused = false;
+    gamewinX = 800;
+    gamewinY = 1030;
+    lifeX = gamewinX -280;
+    lifeY = gamewinY - 995;
     countLife = 4;
     userX = 360.0f; 
     userY = 850.0f;
-    scalefactor = 0.2f;
+    scalefactor = 0.13f;
     backgroundSpeed = 200.f;
     carspeed = 0.2f;
     movespeed = 30.f;
     backgroundY1 = 0;
-    backgroundY2 = -1000;
+    backgroundY2 = -1020;
     opp1Y = -1400; opp2Y = -900; 
     score = 0; prevscore =0; scoreInterval = 100;
 
@@ -41,10 +44,10 @@ Game::Game()
     soundgame.setBuffer(playSound);
 
     //loading texture
-    if (!userCar.loadFromFile("game_resrc/user_car.png")) std::cout << "Error in loading texture"<< std::endl;
+    if (!userCar.loadFromFile("game_resrc/new_car.png")) std::cout << "Error in loading texture"<< std::endl;
     if(!oppCar1.loadFromFile("game_resrc/opp_car1.png")) std::cout << "Error in loading texture"<< std::endl;
     if(!oppCar2.loadFromFile("game_resrc/opp_car2.png")) std::cout << "Error in loading texture"<< std::endl;
-    if(!game_back.loadFromFile("game_resrc/game_back2.png")) std::cout << "Error in loading texture" << std::endl;
+    if(!game_back.loadFromFile("game_resrc/new_back.png")) std::cout << "Error in loading texture" << std::endl;
     userSprite.setTexture(userCar);
     opp1.setTexture(oppCar1);
     opp2.setTexture(oppCar2);
@@ -55,7 +58,7 @@ Game::Game()
         if(!heart[i].loadFromFile("game_resrc/heart.png")) std::cout<< "error in loading texture" << std::endl;
         life[i].setTexture(heart[i]);
         life[i].setScale(0.4,0.4);
-        life[i].setPosition(520.0f + i * 80.0f, 35.0f);
+        life[i].setPosition(lifeX + i * 80.0f, lifeY);
     }
 
     // Two sprites for the background
@@ -64,7 +67,7 @@ Game::Game()
 
     //setting up user sprite car
     userSprite.setPosition(sf::Vector2f(userX, userY));
-    userSprite.setScale(scalefactor, scalefactor);
+    userSprite.setScale(scalefactor +0.02, scalefactor);
 
     //setting up opponent sprite car 
     opp1.setScale(0.9, 0.9);
@@ -77,18 +80,12 @@ Game::Game()
 }
 void Game::gameRun()
 {    
-    game_win.create(sf::VideoMode(800, 1000), "IN Game");
+    game_win.create(sf::VideoMode(gamewinX, gamewinY), "IN Game");
 
     if(isMuted)
-        {
-            soundgame.pause();
-            //isMuted = false;
-        }
-        else
-        {
-            soundgame.play();
-            //isMuted = true;
-        }
+        soundgame.pause();
+    else 
+        soundgame.play();
     soundgame.setLoop(true);
 
     while(game_win.isOpen())
@@ -132,7 +129,7 @@ void Game::handleKeyPress(const sf::Keyboard::Key& key)
     }
     if (key == sf::Keyboard::Left || key == sf::Keyboard::A)
     {
-        if (userSprite.getPosition().x - 5 >= borderLeft)
+        if (userSprite.getPosition().x + 1 >= borderLeft)
         {
             userSprite.move(-movespeed, 0);
         }
@@ -188,27 +185,27 @@ void Game::update()
         if (backgroundY2>0)
         {
             backgroundY1=0;
-            backgroundY2=backgroundY1-1000;
+            backgroundY2=backgroundY1-1020;
 
         }
         //setting the position of the background 
         background1.setPosition(0,backgroundY1);
         background2.setPosition(0, backgroundY2);
 
-        //deltaTime1 = clock1.restart();
+        deltaTime1 = clock1.restart();
         // Moving the opponent cars
-        if (opp1Y > 1000)
+        if (opp1Y > 1030)
         {
             opp1Y = -100;
             opp1X = getRandomNumber(borderLeft, borderRight);
-            score = score + 10;
+            score = score + 10; 
         }
         else
         {
             opp1Y += carspeed;
         }
 
-        if (opp2Y > 1000)
+        if (opp2Y > 1030)
         {
             opp2Y = opp1Y-600;
             opp2X = getRandomNumber(borderLeft, borderRight);
@@ -229,6 +226,7 @@ void Game::update()
                 carspeed +=0.05f;
                 prevscore=score;
         }
+        
         //displaying score
         stringscore = "SCORE: " + std::to_string(score);
         text.setString(stringscore);
@@ -253,7 +251,7 @@ void Game::checkColl()
     sf::FloatRect opp1BoundingBox = opp1.getGlobalBounds();
     sf::FloatRect opp2BoundingBox = opp2.getGlobalBounds();
 
-    if(playerBoundingBox.intersects(opp1BoundingBox))
+    if(playerBoundingBox.intersects(opp1BoundingBox) ||playerBoundingBox.intersects(opp2BoundingBox))
     {
         --countLife;
         if(countLife<=1)
@@ -264,43 +262,10 @@ void Game::checkColl()
         }
         else
         {
-            // Reset positions of the player and opponents to continue the game
-            userX = 360.0f; 
-            userY = 850.0f;
-            userSprite.setPosition(sf::Vector2f(userX, userY));
-            opp1Y = -1400;
-            opp2Y = -900;
-            carspeed = 0.2f;
-            opp1X = getRandomNumber(borderLeft, borderRight);
-            opp2X = getRandomNumber(borderLeft, borderRight);
-            opp1.setPosition(sf::Vector2f(opp1X, opp1Y));
-            opp2.setPosition(sf::Vector2f(opp2X, opp2Y));
+            reset();
         }
     }
-    if(playerBoundingBox.intersects(opp2BoundingBox))
-    {
-        --countLife;
-        if(countLife<=1)
-        {
-            soundgame.stop();
-            game_win.close();
-            gameOver();
-        }
-        else
-        {
-            // Reset positions of the player and opponents to continue the game
-            userX = 360.0f; 
-            userY = 850.0f;
-            userSprite.setPosition(sf::Vector2f(userX, userY));
-            opp1Y = -1400;
-            opp2Y = -900;
-            carspeed = 0.2f;
-            opp1X = getRandomNumber(borderLeft, borderRight);
-            opp2X = getRandomNumber(borderLeft, borderRight);
-            opp1.setPosition(sf::Vector2f(opp1X, opp1Y));
-            opp2.setPosition(sf::Vector2f(opp2X, opp2Y));
-        }
-    }
+
     switch (countLife)
     {
     case 3:
@@ -318,6 +283,21 @@ void Game::checkColl()
     default:
         break;
     }
+}
+
+void Game::reset()
+{
+    // Reset positions of the player and opponents to continue the game
+    userX = 360.0f; 
+    userY = 850.0f;
+    userSprite.setPosition(sf::Vector2f(userX, userY));
+    opp1Y = -1400;
+    opp2Y = -900;
+    carspeed = 0.2f;
+    opp1X = getRandomNumber(borderLeft, borderRight);
+    opp2X = getRandomNumber(borderLeft, borderRight);
+    opp1.setPosition(sf::Vector2f(opp1X, opp1Y));
+    opp2.setPosition(sf::Vector2f(opp2X, opp2Y));
 }
 
 void Game::gameOver()

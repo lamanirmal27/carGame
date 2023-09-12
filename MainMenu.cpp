@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 #include "Game.h"
 
-const float screenWidth = 1000.0f;
+const float screenWidth = 1422.0f;
 const float screenHeight = 800.0f;
 
 sf::Sound mainsound;
@@ -31,6 +31,8 @@ MainMenu::MainMenu()
     options[2].setString("Instruction");
     options[3].setString("Quit Game");
 
+
+
     //Options for our exitMenu
     exitOptions[0].setString("Exit");
     exitOptions[1].setString("Cancel");
@@ -42,12 +44,16 @@ MainMenu::MainMenu()
     }
     
     //loading sprites
-    if (!arrowTexture.loadFromFile("game_resrc/arrow.png")) std::cout << "Error in loading sprite"<< std::endl;
+    if (!arrowTexture.loadFromFile("game_resrc/new_arrow.png")) std::cout << "Error in loading sprite"<< std::endl;
     if (!buttonTexture.loadFromFile("game_resrc/buttonExit.png")) std::cout << "Error in loading sprite"<< std::endl;
     arrowSprite.setTexture(arrowTexture);
     buttonSprite.setTexture(buttonTexture);
     arrowSprite.setScale(scaleFactor, scaleFactor);
     arrowSprite.setPosition(85, 190);
+    //arrowSprite.setColor(sf::Color::Blue);
+
+    if(!back.loadFromFile("game_resrc/abc3.png")) std::cout << "Error in loading sprite" << std::endl;
+    main_back.setTexture(back);
 }
 
 void MainMenu::run()
@@ -129,9 +135,14 @@ void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
 void MainMenu::render()
 {
     window.clear();
+    window.draw(main_back);
     for (int i = 0; i < 4; ++i)
+    {
         window.draw(options[i]);
+        //options[i].setFillColor(sf::Color::Black);
+    }
     window.draw(arrowSprite);
+    
     window.display();
 }
 
@@ -163,8 +174,11 @@ void MainMenu::instruction()
         sf::Event e;
         while(instruction.pollEvent(e))
         {
-            if(e.key.code == sf::Keyboard::Enter)
-            instruction.close();
+            if(e.type == sf::Event::KeyPressed)
+            {
+                if(e.key.code == sf::Keyboard::Enter)
+                    instruction.close();
+            }
         }
 
         instruction.clear();
