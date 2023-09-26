@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 #include "Game.h"
 
-const float screenWidth = 1422.0f;
+const float screenWidth = 1000.0f;
 const float screenHeight = 800.0f;
 
 sf::Sound mainsound;
@@ -40,7 +40,7 @@ MainMenu::MainMenu()
     for (int i = 0; i < 4; ++i) {
         options[i].setFont(font);
         options[i].setCharacterSize(110);
-        options[i].setPosition(200, 170 + i * 90);
+        options[i].setPosition(250, 170 + i * 90);
     }
     
     //loading sprites
@@ -49,11 +49,12 @@ MainMenu::MainMenu()
     arrowSprite.setTexture(arrowTexture);
     buttonSprite.setTexture(buttonTexture);
     arrowSprite.setScale(scaleFactor, scaleFactor);
-    arrowSprite.setPosition(85, 190);
-    //arrowSprite.setColor(sf::Color::Blue);
+    arrowSprite.setPosition(120, 190);
+    arrowSprite.setColor(sf::Color::Red);
+    
 
     if(!back.loadFromFile("game_resrc/abc3.png")) std::cout << "Error in loading sprite" << std::endl;
-    main_back.setTexture(back);
+    //main_back.setTexture(back);
 }
 
 void MainMenu::run()
@@ -91,7 +92,8 @@ void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
         if (selectedOption > 0) {
             arrowSprite.move(0, -90);
             --selectedOption;
-            button.play();
+            if(!isMuted)    
+                button.play();
         }
     } 
     else if (key == sf::Keyboard::Down) 
@@ -99,7 +101,8 @@ void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
         if (selectedOption < 3) {
             arrowSprite.move(0, 90);
             ++selectedOption;
-            button.play();
+            if(!isMuted)    
+                button.play();
         }
     } 
     else if (key == sf::Keyboard::Escape) 
@@ -135,11 +138,10 @@ void MainMenu::handleKeyPress(sf::Keyboard::Key& key)
 void MainMenu::render()
 {
     window.clear();
-    window.draw(main_back);
+    //window.draw(main_back);
     for (int i = 0; i < 4; ++i)
     {
         window.draw(options[i]);
-        //options[i].setFillColor(sf::Color::Black);
     }
     window.draw(arrowSprite);
     
@@ -174,8 +176,9 @@ void MainMenu::instruction()
         sf::Event e;
         while(instruction.pollEvent(e))
         {
-            if(e.key.code == sf::Keyboard::Enter)
-            instruction.close();
+            if(e.type == sf::Event::KeyPressed)
+                if(e.key.code == sf::Keyboard::Enter)
+                instruction.close();
         }
 
         instruction.clear();

@@ -19,7 +19,6 @@ class Game
     void checkColl();
     void gameOver();
     int getRandomNumber(int lower, int upper);
-    void updateGameElements(const sf::Vector2u& windowSize);
     void togglePause();
     void resume();
     void reset();

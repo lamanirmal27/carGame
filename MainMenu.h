@@ -13,16 +13,14 @@ public:
     MainMenu();
     void run();
     void start();
-    
-    
-
-private:
     void processEvents();
     void handleKeyPress(sf::Keyboard::Key& key);
     void render();
     void mute();
     void instruction();
     void exit();
+    
+private:
 
     sf::RenderWindow window;
     sf::Font font;
